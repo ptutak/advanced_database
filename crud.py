@@ -1,8 +1,10 @@
 import sys
 import argparse
 from pprint import pformat
+from copy import deepcopy
 
 from pymongo import MongoClient
+from bson.objectid import ObjectId
 import schema
 
 
@@ -43,36 +45,47 @@ class Database:
     def validate_schema(self, schema_name, value):
         if schema_name not in self._schema:
             raise RuntimeError(f"Schema {schema_name} does not exist")
-        if set(self._schema[schema_name]) != set(value.keys()):
+        if not set(self._schema[schema_name]) >= set(value.keys()):
             raise RuntimeError(f"Value {pformat(value)} is not valid for schema: {schema_name}")
 
+    def update_id(self, value):
+        if "_id" not in value:
+            return value
+        new_value = deepcopy(value)
+        new_value["_id"] = ObjectId(value["_id"])
+        return new_value
+
     def create(self, schema, value):
-        pass
+        return getattr(self._db, schema).insert_one(value).inserted_id
 
     def read(self, schema, value=None):
-        pass
+        return list(getattr(self._db, schema).find(value))
 
     def update(self, schema, value):
-        pass
+        query = {"_id": value["_id"]}
+        del value["_id"]
+        value = {"$set": value}
+        result = getattr(self._db, schema).update_one(query, value)
+        return (result.matched_count, result.modified_count)
 
     def delete(self, schema, value=None):
-        pass
+        return getattr(self._db, schema).delete_many(value).deleted_count
+
+    def perform_operation(self, operation, schema, value):
+        value = eval(value)
+        self.validate_schema(schema, value)
+        new_value = self.update_id(value)
+        return getattr(self, operation)(schema, new_value)
 
 
 def main():
     parsed_args = parse_args()
-    if parsed_args.operation == "create":
-        pass
-    elif parsed_args.operation == "read":
-        pass
-    elif parsed_args.operation == "update":
-        pass
-    elif parsed_args.operation == "delete":
-        pass
-    else:
+    if parsed_args.operation not in {"create", "read", "update", "delete"}:
         print("Wrong operation")
         return -1
-
+    db = Database()
+    result = db.perform_operation(parsed_args.operation, parsed_args.schema, parsed_args.value)
+    print(pformat(result))
     return 0
 
 
