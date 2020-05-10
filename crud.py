@@ -15,21 +15,15 @@ def parse_args(args=None):
     parser = argparse.ArgumentParser()
 
     parser.add_argument(
-        "operation",
-        metavar="OPERATION",
-        type=str,
+        "operation", metavar="OPERATION", type=str,
     )
 
     parser.add_argument(
-        "schema",
-        metavar="SCHEMA",
-        type=str,
+        "schema", metavar="SCHEMA", type=str,
     )
 
     parser.add_argument(
-        "value",
-        metavar="VALUE",
-        type=str,
+        "value", metavar="VALUE", type=str,
     )
 
     return parser.parse_args(args)
@@ -46,14 +40,16 @@ class Database:
         if schema_name not in self._schema:
             raise RuntimeError(f"Schema {schema_name} does not exist")
         if not set(self._schema[schema_name]) >= set(value.keys()):
-            raise RuntimeError(f"Value {pformat(value)} is not valid for schema: {schema_name}")
+            raise RuntimeError(
+                f"Value {pformat(value)} is not valid for schema: {schema_name}"
+            )
 
-    def update_id(self, value):
-        if "_id" not in value:
-            return value
-        new_value = deepcopy(value)
-        new_value["_id"] = ObjectId(value["_id"])
-        return new_value
+    def update_id(self, document):
+        new_document = deepcopy(document)
+        for key, value in document.items():
+            if key.endswith("_id"):
+                new_document[key] = ObjectId(value)
+        return new_document
 
     def create(self, schema, value):
         return getattr(self._db, schema).insert_one(value).inserted_id
@@ -84,7 +80,9 @@ def main():
         print("Wrong operation")
         return -1
     db = Database()
-    result = db.perform_operation(parsed_args.operation, parsed_args.schema, parsed_args.value)
+    result = db.perform_operation(
+        parsed_args.operation, parsed_args.schema, parsed_args.value
+    )
     print(pformat(result))
     return 0
 

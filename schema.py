@@ -10,16 +10,8 @@ schema = {
         "subject_id": "<objectId>",
         "grade": "<float>",
     },
-    "Subject": {
-        "_id": "<objectId>",
-        "name": "<string>",
-        "employee_id": "<objectId>",
-    },
-    "Classroom": {
-        "_id": "<objectId>",
-        "name": "<string>",
-        "description": "<string>",
-    },
+    "Subject": {"_id": "<objectId>", "name": "<string>", "employee_id": "<objectId>",},
+    "Classroom": {"_id": "<objectId>", "name": "<string>", "description": "<string>",},
     "Classes": {
         "_id": "<objectId>",
         "class_no": "<integer>",
@@ -27,10 +19,7 @@ schema = {
         "classroom_id": "<objectId>",
         "subject_group_id": "<objectId>",
     },
-    "Student_group": {
-        "_id": "<objectId>",
-        "subject_group_id": "<objectId>",
-    },
+    "Student_group": {"_id": "<objectId>", "subject_group_id": "<objectId>",},
     "Subject_group": {
         "_id": "<objectId>",
         "group_name": "<string>",
@@ -41,5 +30,5 @@ schema = {
         "_id": "<objectId>",
         "first_name": "<string>",
         "last_name": "<string>",
-    }
+    },
 }
