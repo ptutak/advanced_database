@@ -40,7 +40,7 @@ schema = [
             "first_name": "<string>",
             "last_name": "<string>",
         },
-        "_schema_version": "1",
+        "_version": "1",
         "_indices": {"Classroom": ("descriptions.description")},
     },
     {
@@ -55,13 +55,17 @@ schema = [
             "subject_id": "<objectId>",
             "grade": "<float>",
         },
+        "MainSubject": {
+            "_id": "<objectId>",
+            "name": "<string>",
+            "employee_id": "<objectId>",
+            "subject_info_id": "<objectId>",
+        },
         "Subject": {
             "_id": "<objectId>",
             "name": "<string>",
             "employee_id": "<objectId>",
-            "ects": "<integer>",
-            "hours": "<integer>",
-            "description": "<string>",
+            "subject_info_id": "<objectId>",
         },
         "SubjectInfo": {
             "_id": "<objectId>",
@@ -96,5 +100,70 @@ schema = [
         },
         "_version": "2",
         "_indices": {"Classroom": ("descriptions.description")},
-    }
+    },
+    {
+        "Student": {
+            "_id": "<objectId>",
+            "first_name": "<string>",
+            "last_name": "<string>",
+        },
+        "Assignment": {
+            "_id": "<objectId>",
+            "student_id": "<objectId>",
+            "subject_id": "<objectId>",
+            "grade": "<float>",
+        },
+        "MainSubject": {
+            "_id": "<objectId>",
+            "name": "<string>",
+            "employee_id": "<objectId>",
+            "subject_info_id": "<objectId>",
+            "field_id": "<objectId>",
+        },
+        "Subject": {
+            "_id": "<objectId>",
+            "name": "<string>",
+            "employee_id": "<objectId>",
+            "subject_info_id": "<objectId>",
+            "field_id": "<objectId>",
+        },
+        "SubjectInfo": {
+            "_id": "<objectId>",
+            "subject_id": "<objectId>",
+            "ects": "<integer>",
+            "hours": "<integer>",
+            "description": "<integer>",
+        },
+        "Field": {
+            "_id": "<objectId>",
+            "name": "<string>",
+            "disciplines": ["<string>"],
+        },
+        "Classroom": {
+            "_id": "<objectId>",
+            "name": "<string>",
+            "descriptions": [{"class_id": "<objectId>", "description": "<string>"}],
+        },
+        "Classes": {
+            "_id": "<objectId>",
+            "class_no": "<integer>",
+            "date_time": "<datetime>",
+            "classroom_id": "<objectId>",
+            "subject_group_id": "<objectId>",
+        },
+        "Student_group": {"_id": "<objectId>", "subject_group_id": "<objectId>"},
+        "Subject_group": {
+            "_id": "<objectId>",
+            "group_name": "<string>",
+            "employee_id": "<objectId>",
+            "subject_id": "<objectId>",
+        },
+        "Employee": {
+            "_id": "<objectId>",
+            "first_name": "<string>",
+            "last_name": "<string>",
+        },
+        "_version": "3",
+        "_indices": {"Classroom": ("descriptions.description")},
+    },
 ]
