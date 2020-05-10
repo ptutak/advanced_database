@@ -1,3 +1,5 @@
+import pymongo
+
 schema = [
     {
         "Student": {
@@ -19,7 +21,7 @@ schema = [
         "Classroom": {
             "_id": "<objectId>",
             "name": "<string>",
-            "descriptions": [{"class_id": "<objectId>", "description": "<string>"}],
+            "description": "<string>",
         },
         "Classes": {
             "_id": "<objectId>",
@@ -41,7 +43,7 @@ schema = [
             "last_name": "<string>",
         },
         "_version": "1",
-        "_indices": {"Classroom": ("descriptions.description")},
+        "_indices": [],
     },
     {
         "Student": {
@@ -77,7 +79,14 @@ schema = [
         "Classroom": {
             "_id": "<objectId>",
             "name": "<string>",
-            "descriptions": [{"class_id": "<objectId>", "description": "<string>"}],
+            "capabilities": [
+                {
+                    "subject_id": "<objectId>",
+                    "computer_no": "<integer>",
+                    "projector": "<bool>",
+                    "description": "<string>",
+                }
+            ],
         },
         "Classes": {
             "_id": "<objectId>",
@@ -99,7 +108,20 @@ schema = [
             "last_name": "<string>",
         },
         "_version": "2",
-        "_indices": {"Classroom": ("descriptions.description")},
+        "_indices": [
+            {
+                "Classroom": [
+                    ("capabilites.subject_id", pymongo.ASCENDING),
+                    ("capabilites.computer_no", pymongo.ASCENDING),
+                ]
+            },
+            {
+                "Classroom": [
+                    ("capabilites.subject_id", pymongo.ASCENDING),
+                    ("capabilites.projector", pymongo.ASCENDING),
+                ]
+            },
+        ],
     },
     {
         "Student": {
@@ -164,6 +186,6 @@ schema = [
             "last_name": "<string>",
         },
         "_version": "3",
-        "_indices": {"Classroom": ("descriptions.description")},
+        "_indices": [{"Classroom": ("descriptions.description")}],
     },
 ]

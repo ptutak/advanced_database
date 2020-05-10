@@ -39,8 +39,9 @@ class Database:
         self._create_indices()
 
     def _create_indices(self):
-        for schema_name, index in self._schema["_indices"].items():
-            getattr(self._db, schema_name).create_index(index)
+        for index in self._schema["_indices"]:
+            for schema_name, index_value in index.items():
+                getattr(self._db, schema_name).create_index(index_value)
 
     def validate_schema(self, schema_name, value):
         if schema_name not in self._schema:
@@ -96,9 +97,7 @@ def main():
         schema_version = "1"
 
     db = Database(schema_version)
-    result = db.perform_operation(
-        parsed_args.operation, schema_name, parsed_args.value
-    )
+    result = db.perform_operation(parsed_args.operation, schema_name, parsed_args.value)
     print(pformat(result))
     return 0
 
