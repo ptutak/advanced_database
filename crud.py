@@ -30,11 +30,17 @@ def parse_args(args=None):
 
 
 class Database:
-    _schema = schema.schema
-
-    def __init__(self):
+    def __init__(self, version="1"):
         client = MongoClient()
         self._db = client.advanced_database
+        for schema_version in schema.schema:
+            if schema_version["_version"] == version:
+                self._schema = schema_version
+        self._create_indices()
+
+    def _create_indices(self):
+        for schema_name, index in self._schema["_indices"].items():
+            getattr(self._db, schema_name).create_index(index)
 
     def validate_schema(self, schema_name, value):
         if schema_name not in self._schema:
@@ -73,15 +79,25 @@ class Database:
         new_value = self.update_id(value)
         return getattr(self, operation)(schema, new_value)
 
+    def __getattr__(self, attribute):
+        return getattr(self._db, attribute)
+
 
 def main():
     parsed_args = parse_args()
     if parsed_args.operation not in {"create", "read", "update", "delete"}:
         print("Wrong operation")
         return -1
-    db = Database()
+    schema_version = parsed_args.schema.split(":")
+    schema_name = schema_version[0]
+    if len(schema_version) == 2:
+        schema_version = schema_version[1]
+    else:
+        schema_version = "1"
+
+    db = Database(schema_version)
     result = db.perform_operation(
-        parsed_args.operation, parsed_args.schema, parsed_args.value
+        parsed_args.operation, schema_name, parsed_args.value
     )
     print(pformat(result))
     return 0
