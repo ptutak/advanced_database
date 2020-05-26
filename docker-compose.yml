@@ -1,5 +1,6 @@
 version: '3'
 services:
+# Shard 0
   rs0-node1:
     container_name: rs0-node1
     image: mongo:4.2.6-bionic
@@ -27,3 +28,89 @@ services:
     volumes:
       - ./rs0/node3.conf:/etc/mongo/mongod.conf
       - ./data/rs0-node3:/data/db
+  rs0-node4:
+    container_name: rs0-node4
+    image: mongo:4.2.6-bionic
+    command: mongod --config /etc/mongo/mongod.conf
+    expose:
+      - "27017"
+    volumes:
+      - ./rs0/node4.conf:/etc/mongo/mongod.conf
+      - ./data/rs0-node4:/data/db
+
+# Shard 1
+  rs1-node1:
+    container_name: rs1-node1
+    image: mongo:4.2.6-bionic
+    command: mongod --config /etc/mongo/mongod.conf
+    expose:
+      - "27017"
+    volumes:
+      - ./rs1/node1.conf:/etc/mongo/mongod.conf
+      - ./data/rs1-node1:/data/db
+  rs1-node2:
+    container_name: rs1-node2
+    image: mongo:4.2.6-bionic
+    command: mongod --config /etc/mongo/mongod.conf
+    expose:
+      - "27017"
+    volumes:
+      - ./rs1/node2.conf:/etc/mongo/mongod.conf
+      - ./data/rs1-node2:/data/db
+  rs1-node3:
+    container_name: rs1-node3
+    image: mongo:4.2.6-bionic
+    command: mongod --config /etc/mongo/mongod.conf
+    expose:
+      - "27017"
+    volumes:
+      - ./rs1/node3.conf:/etc/mongo/mongod.conf
+      - ./data/rs1-node3:/data/db
+  rs1-node4:
+    container_name: rs1-node4
+    image: mongo:4.2.6-bionic
+    command: mongod --config /etc/mongo/mongod.conf
+    expose:
+      - "27017"
+    volumes:
+      - ./rs1/node4.conf:/etc/mongo/mongod.conf
+      - ./data/rs1-node4:/data/db
+
+# CSRS
+  csrs0-node1:
+    container_name: csrs0-node1
+    image: mongo:4.2.6-bionic
+    command: mongod --config /etc/mongo/mongod.conf
+    expose:
+      - "27019"
+    volumes:
+      - ./csrs0/node1.conf:/etc/mongo/mongod.conf
+      - ./data/csrs0-node1:/data/db
+  csrs0-node2:
+    container_name: csrs0-node2
+    image: mongo:4.2.6-bionic
+    command: mongod --config /etc/mongo/mongod.conf
+    expose:
+      - "27019"
+    volumes:
+      - ./csrs0/node2.conf:/etc/mongo/mongod.conf
+      - ./data/csrs0-node2:/data/db
+  csrs0-node3:
+    container_name: csrs0-node3
+    image: mongo:4.2.6-bionic
+    command: mongod --config /etc/mongo/mongod.conf
+    expose:
+      - "27019"
+    volumes:
+      - ./csrs0/node3.conf:/etc/mongo/mongod.conf
+      - ./data/csrs0-node3:/data/db
+  mongos:
+    container_name: mongos
+    image: mongo:4.2.6-bionic
+    command: mongos --config /etc/mongo/mongos.conf
+    ports:
+      - "27017:27000"
+    expose:
+      - "27000"
+    volumes:
+      - ./mongos.conf:/etc/mongo/mongos.conf

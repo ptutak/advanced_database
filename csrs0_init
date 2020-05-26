@@ -1,0 +1,16 @@
+rs.initiate(
+    {
+        _id: "csrs0",
+        members: [
+            {_id: 0, host: "csrs0-node1:27019"},
+            {_id: 1, host: "csrs0-node2:27019"},
+            {_id: 2, host: "csrs0-node3:27019"}
+        ]
+    }
+)
+
+sh.addShard("rs0/rs0-node1,rs0-node2,rs0-node3")
+sh.addShard("rs1/rs1-node1,rs1-node2,rs1-node3")
+
+
+1h 39m
