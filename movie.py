@@ -38,3 +38,44 @@
     "writers": ["Charles Perrault (story)"],
     "year": 1899,
 }
+
+
+{'_id': ObjectId('56e9b497732b6122f8790287'),
+ 'active': 'N',
+ 'airline': 8,
+ 'alias': '',
+ 'base': 'FLS',
+ 'country': 'United Kingdom',
+ 'iata': 'TWF',
+ 'icao': 'CLOUD RUNNER',
+ 'name': '247 Jet Ltd'}
+
+{'_id': ObjectId('56e9b39b732b6122f877faab'),
+ 'airline': {'alias': '2L',
+             'iata': 'OAW',
+             'id': 2750,
+             'name': 'Helvetic Airways'},
+ 'airplane': '319',
+ 'codeshare': '',
+ 'dst_airport': 'GVA',
+ 'src_airport': 'TFS',
+ 'stops': 0}
+
+{'_id': ObjectId('5980bef9a39d0ba3c650ae9d'),
+ 'airlines': ['Air Berlin',
+              'American Airlines',
+              'British Airways',
+              'Cathay Pacific',
+              'Finnair',
+              'Iberia Airlines',
+              'Japan Airlines',
+              'LATAM Chile',
+              'LATAM Brasil',
+              'Malasya Airlines',
+              'Canadian Airlines',
+              'Quantas',
+              'Qatar Airways',
+              'Royal Jordainian',
+              'SriLanka Airlines',
+              'S7 Airlines'],
+ 'name': 'OneWorld'}
