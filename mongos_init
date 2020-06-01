@@ -1,0 +1,5 @@
+
+sh.addShard("rs0/rs0-node1,rs0-node2,rs0-node3")
+sh.addShard("rs1/rs1-node1,rs1-node2,rs1-node3")
+
+db.mycol.createIndex({"_id":"hashed"})
